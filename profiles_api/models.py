@@ -12,7 +12,7 @@ class UserProfileManager(BaseUserManager):
             raise ValueError("User must have an email address")
 
         email = self.normalize_email(email)
-        user = self.Model(email = email, name = name)
+        user = self.model(email = email, name = name)
         user.set_password(password)
         user.save(using = self._db)
         return user
@@ -34,14 +34,14 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique = True)
     name = models.CharField(max_length = 255)
     is_activate = models.BooleanField(default = True)
-    is_Staff = models.BooleanField(default = False)
+    is_staff = models.BooleanField(default = False)
 
     ## Specifying Model Manager
     objects = UserProfileManager()
 
     # Setting up variables which would define the use of the following Columns
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELD = ['name']
+    REQUIRED_FIELDS = ['name']
 
     def get_full_Name(self):
         """Fetch Full name of the Customer"""
